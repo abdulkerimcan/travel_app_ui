@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:travel_ui/models/hotel.model.dart';
+import 'package:travel_ui/models/hotel_model.dart';
 
 import '../models/destination_model.dart';
 import '../screens/home_screen.dart';

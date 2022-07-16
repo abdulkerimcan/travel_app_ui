@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:travel_ui/models/destination_model.dart';
+import 'package:travel_ui/screens/destination_screen.dart';
 
 import '../screens/home_screen.dart';
 
@@ -45,14 +45,17 @@ class DestinationWidget extends StatelessWidget {
                     itemCount: destinations.length,
                     itemBuilder: (context, index) {
                       Destination destination = destinations[index];
-                      return Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Stack(
-                          children: [
-                            _whiteContainer(context, destination),
-                            _image(destination),
-                            _textInImg(destination, context),                            
-                          ],
+                      return GestureDetector(
+                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => DestinatinPage(destination: destination))),
+                        child: Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Stack(
+                            children: [
+                              _whiteContainer(context, destination),
+                              _image(destination),
+                              _textInImg(destination, context),
+                            ],
+                          ),
                         ),
                       );
                     },
@@ -66,45 +69,42 @@ class DestinationWidget extends StatelessWidget {
 
   Positioned _textInImg(Destination destination, BuildContext context) {
     return Positioned(
-                            top: 150,
-                            left: 10,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "${destination.city}",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline6
-                                      ?.copyWith(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                "${destination.country}",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle1
-                                    ?.copyWith(
-                                        color: Colors.grey[300],
-                                        fontWeight: FontWeight.bold),
-                              ),
-                              ],
-                            ),
-                          );
+      top: 150,
+      left: 10,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "${destination.city}",
+            style: Theme.of(context)
+                .textTheme
+                .headline6
+                ?.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          Text(
+            "${destination.country}",
+            style: Theme.of(context).textTheme.subtitle1?.copyWith(
+                color: Colors.grey[300], fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
   }
 
   Positioned _image(Destination destination) {
     return Positioned(
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: Image.asset(
-          "${destination.imageUrl}",
-          height: 200,
-          width: 200,
-          fit: BoxFit.fill,
-          color: Colors.white.withOpacity(0.9),
-          colorBlendMode: BlendMode.colorBurn,
+      child: Hero(
+        tag: destination.imageUrl,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Image.asset(
+            "${destination.imageUrl}",
+            height: 200,
+            width: 200,
+            fit: BoxFit.fill,
+            color: Colors.white.withOpacity(0.9),
+            colorBlendMode: BlendMode.colorBurn,
+          ),
         ),
       ),
     );
@@ -121,21 +121,17 @@ class DestinationWidget extends StatelessWidget {
               color: Colors.black87, offset: Offset(0.0, 2.0), blurRadius: 6.0)
         ], color: Colors.white, borderRadius: BorderRadius.circular(20)),
         child: Padding(
-          padding: const EdgeInsets.only(left: 8.0),
+          padding: const EdgeInsets.only(left: 8.0,bottom: 10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "asdadada",
-                style: Theme.of(context).textTheme.subtitle1?.copyWith(
-                    color: Colors.black, fontWeight: FontWeight.bold),
+                "${destination.description}",
+                style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                    color: Colors.black, fontWeight: FontWeight.w600),
               ),
-              Text(
-                "${destination.country}",
-                style: Theme.of(context).textTheme.subtitle1?.copyWith(
-                    color: ColorItems.sparkling, fontWeight: FontWeight.bold),
-              ),
+              
             ],
           ),
         ),
